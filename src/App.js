@@ -26,6 +26,7 @@ function App() {
                     let createdAt = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay();
                     data.created_at = createdAt;
                     setUser(data);
+                    setUsername("");
                   })
                   .catch((err) => console.log({ err }));
               }
@@ -37,6 +38,7 @@ function App() {
             {Object.keys(user).length == 0 ? (
               <>
                 <SkeletonCircle height="100px" width="100px " />
+                &nbsp; &nbsp; <b>Please Enter Username</b>
                 <Skeleton height="30px" margin={3} />
                 <Skeleton height="30px" margin={3} />
                 <Skeleton height="30px" margin={3} />
