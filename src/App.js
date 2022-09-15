@@ -5,6 +5,7 @@ import { useState } from "react";
 function App() {
   const [user, setUser] = useState({});
   const [Username, setUsername] = useState("");
+  const [err404, setError404] = useState(false);
   const url = "https://api.github.com/users/";
   return (
     <div className="App">
@@ -17,7 +18,7 @@ function App() {
               setUsername(e.target.value);
             }}
             onKeyDown={(e) => {
-              if (e.key == "Enter") {
+              if (e.key === "Enter") {
                 axios
                   .get(`${url}${Username}`)
                   .then((data) => {
@@ -28,17 +29,22 @@ function App() {
                     setUser(data);
                     setUsername("");
                   })
-                  .catch((err) => console.log({ err }));
+                  .catch((err) => {
+                    if (err.response.status === 404) {
+                      setError404(true);
+                    }
+                  });
               }
             }}
             placeholder="Enter Github Username"
             className="InputBox"
           />
           <Box height="fit-content" width="25rem" backgroundColor={"white"} margin="3" padding="3" borderRadius="md">
-            {Object.keys(user).length == 0 ? (
+            {Object.keys(user).length === 0 ? (
               <>
                 <SkeletonCircle height="100px" width="100px " />
-                &nbsp; &nbsp; <b>Please Enter Username</b>
+                &nbsp; &nbsp; {!err404 && <b>Please Enter Username</b>}
+                &nbsp; &nbsp; {err404 && <b style={{ color: "red" }}>User Not Found</b>}
                 <Skeleton height="30px" margin={3} />
                 <Skeleton height="30px" margin={3} />
                 <Skeleton height="30px" margin={3} />
@@ -50,8 +56,7 @@ function App() {
                 <div
                   className="avatar"
                   style={{
-                    background: `url(${user.avatar_url}) no-repeat`,
-                    backgroundSize: "cover",
+                    backgroundImage: `url(${user.avatar_url}) `,
                   }}
                 />
 
