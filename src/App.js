@@ -20,7 +20,7 @@ function App() {
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 axios
-                  .get(`${url}${Username}`)
+                  .get(`${url}${Username.trim()}`)
                   .then((data) => {
                     data = data.data;
                     let date = new Date(data.created_at);
