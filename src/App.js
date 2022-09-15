@@ -13,6 +13,7 @@ function App() {
         <Box shadow="lg" className="mainApp" display="flex" justifyContent="space-between" alignItems="center">
           <input
             type="text"
+            autoFocus={true}
             value={Username}
             onChange={(e) => {
               setUsername(e.target.value);
@@ -32,6 +33,7 @@ function App() {
                   .catch((err) => {
                     if (err.response.status === 404) {
                       setError404(true);
+                      setUser({});
                     }
                   });
               }
